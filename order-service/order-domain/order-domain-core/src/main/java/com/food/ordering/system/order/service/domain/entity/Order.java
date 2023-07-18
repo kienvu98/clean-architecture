@@ -22,6 +22,7 @@ public class Order extends AggregateRoot<OrderId> {
     private OrderStatus orderStatus;
     private List<String> failureMessages;
 
+    // khởi tạo order
     public void inintializerOrder(){
         setId(new OrderId(UUID.randomUUID()));
         trackingId = new TrackingId(UUID.randomUUID());
@@ -29,22 +30,62 @@ public class Order extends AggregateRoot<OrderId> {
         inintializerOrderItems();
     }
 
+    // khởi tạo các orderitem ứng với order
+    private void inintializerOrderItems() {
+        long itemId = 1;
+        for (OrderItem orderItem: items){
+            orderItem.initializerOrderItem(super.getId(), new OrderItemId(itemId++));
+        }
+    }
+
+    // validate order
     public void validateOrder(){
         validateInitialOrder();
         validateTotalPrice();
         validateItemsPrice();
     }
 
-    // function check status order
+    private void validateTotalPrice() {
+        if (price == null || price.isGreaterThanZero()){
+            throw new OrderDomainException("Total price must be greater than zero!");
+        }
+    }
+
+    private void validateInitialOrder() {
+        if (orderStatus != null && getId() != null){
+            throw new OrderDomainException("Order is not in correct state for inintialization");
+        }
+    }
+
+    private void validateItemsPrice() {
+        Money orderItemsTotal = items.stream().map(orderItem -> {
+            validateItemPrice(orderItem);
+            return orderItem.getSubTotal();
+        }).reduce(Money.ZERO, Money::add);
+
+        if (!price.equals(orderItemsTotal)){
+            throw new OrderDomainException("Total price: " + price.getAmount()
+                    + "is not equal to order items total: " + orderItemsTotal.getAmount() + "!");
+        }
+    }
+
+    private void validateItemPrice(OrderItem orderItem) {
+        if (!orderItem.isPriceValid()){
+            throw new OrderDomainException("Order item price: " + orderItem.getPrice().getAmount() +
+                    "is not valid for product" + orderItem.getProduct().getId().getValue());
+        }
+    }
+
+    // function thanh toán đơn hàng(chuyển trạng thái từ chờ thanh toán sang thanh toán)
     public void pay(){
         if(orderStatus != OrderStatus.PENDING){
             throw new OrderDomainException("Order is not in correct state for pay operation!");
         }
-        // đơn hàng thanh toán thì chuyển trạng thái trả tiền
+        // đơn hàng chờ thanh toán thì chuyển trạng thái thanh toán
         orderStatus = OrderStatus.PAID;
     }
 
-    // kiểm tra đơn hàng đã phê duyệt thanh toán chưa
+    // function phê duyệt đơn hàng(chuyển từ trạng thái thanh toán sang trạng thái  duyệt đơn hàng)
     public void approve(){
         if(orderStatus != OrderStatus.PAID){
             throw new OrderDomainException("Order is not in correct state for approve operation!");
@@ -52,7 +93,7 @@ public class Order extends AggregateRoot<OrderId> {
         orderStatus = OrderStatus.APPROVED;
     }
 
-    // kiemr tra có hủy đơn hàng không
+    // function chuyển về trạng thái đang hủy đơn hàng
     public void initCancel(List<String> failureMessages){
         if(orderStatus != OrderStatus.PAID){
             throw new OrderDomainException("Order is not in correct state for initCancel operation!");
@@ -61,7 +102,7 @@ public class Order extends AggregateRoot<OrderId> {
         updateFailureMessages(failureMessages);
     }
 
-    // kiểm tra hủy đơn hàng
+    // function hủy đơn hàng(chuyển từ trạng thái đang xử lý hủy thành trạng thái hủy đơn hàng)
     public void cancel(List<String> failureMessages){
         if (!(orderStatus == OrderStatus.PENDING || orderStatus == OrderStatus.CANCELLING)){
             throw new OrderDomainException("Order is not in correct state for cancel operation!");
@@ -79,44 +120,6 @@ public class Order extends AggregateRoot<OrderId> {
         }
     }
 
-    private void validateItemsPrice() {
-        Money orderItemsTotal = items.stream().map(orderItem -> {
-            validateItemPrice(orderItem);
-            return orderItem.getSubTotal();
-        }).reduce(Money.ZERO, Money::add);
-
-        if (!price.equals(orderItemsTotal)){
-            throw new OrderDomainException("Total price: " + price.getAmount()
-                + "is not equal to order items total: " + orderItemsTotal.getAmount() + "!");
-        }
-    }
-
-    private void validateItemPrice(OrderItem orderItem) {
-        if (!orderItem.isPriceValid()){
-            throw new OrderDomainException("Order item price: " + orderItem.getPrice().getAmount() +
-                    "is not valid for product" + orderItem.getProduct().getId().getValue());
-        }
-    }
-
-
-    private void validateTotalPrice() {
-        if (price == null || price.isGreaterThanZero()){
-            throw new OrderDomainException("Total price must be greater than zero!");
-        }
-    }
-
-    private void validateInitialOrder() {
-        if (orderStatus != null && getId() != null){
-            throw new OrderDomainException("Order is not in correct state for inintialization");
-        }
-    }
-
-    private void inintializerOrderItems() {
-        long itemId = 1;
-        for (OrderItem orderItem: items){
-            orderItem.initializerOrderItem(super.getId(), new OrderItemId(itemId++));
-        }
-    }
 
     private Order(Builder builder) {
         super.setId(builder.orderId);

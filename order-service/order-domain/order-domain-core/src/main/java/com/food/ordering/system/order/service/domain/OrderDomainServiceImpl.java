@@ -1,7 +1,6 @@
 package com.food.ordering.system.order.service.domain;
 
 import com.food.ordering.system.order.service.domain.entity.Order;
-import com.food.ordering.system.order.service.domain.entity.OrderItem;
 import com.food.ordering.system.order.service.domain.entity.Product;
 import com.food.ordering.system.order.service.domain.entity.Restaurant;
 import com.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
@@ -37,16 +36,16 @@ public class OrderDomainServiceImpl implements OrderDomainService{
     }
 
     @Override
+    public void approveOrder(Order order) {
+        order.approve();
+        log.info("Order with id: {} is approved", order.getId().getValue());
+    }
+
+    @Override
     public OrderCancelledEvent cancelOrderPayment(Order order, List<String> failureMessages) {
         order.initCancel(failureMessages);
         log.info("Order payment is cancelling for order id: {} ", order.getId().getValue());
         return new OrderCancelledEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
-    }
-
-    @Override
-    public void approveOrder(Order order) {
-        order.approve();
-        log.info("Order with id: {} is approved", order.getId().getValue());
     }
 
     @Override
@@ -68,6 +67,5 @@ public class OrderDomainServiceImpl implements OrderDomainService{
                 currentProduct.updateWithConfirmedNameAndPrice(restaurantProduct.getName(), restaurantProduct.getPrice());
             }
         }));
-
     }
 }
