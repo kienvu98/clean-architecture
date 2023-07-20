@@ -33,7 +33,7 @@ public class Money {
         return new Money(setScale(this.amount.subtract(money.getAmount())));
     }
 
-    public Money mutiply(int multiplier){
+    public Money multiply(int multiplier) {
         return new Money(setScale(this.amount.multiply(new BigDecimal(multiplier))));
     }
 
@@ -42,7 +42,8 @@ public class Money {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Money money = (Money) o;
-        return amount.equals(money.amount);
+        boolean test = amount.equals(money.amount);
+        return test;
     }
 
     @Override
@@ -50,7 +51,7 @@ public class Money {
         return Objects.hash(amount);
     }
 
-    private BigDecimal setScale(BigDecimal input){
+    private BigDecimal setScale(BigDecimal input) {
         return input.setScale(2, RoundingMode.HALF_EVEN);
     }
 }

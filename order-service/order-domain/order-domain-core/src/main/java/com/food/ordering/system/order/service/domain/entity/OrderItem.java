@@ -18,9 +18,17 @@ public class OrderItem extends BaseEntity<OrderItemId> {
     }
 
     boolean isPriceValid(){
-        return price.isGreaterThanZero() &&
-                price.equals(product.getPrice()) &&
-                price.mutiply(quantity).equals(subTotal);
+        Money test = price.multiply(quantity);
+        boolean check = test.equals(subTotal);
+        if (!price.isGreaterThanZero()){
+            return false;
+        } else if (!price.equals(product.getPrice())) {
+            return false;
+        } else if (!check) {
+            return false;
+        }else {
+            return true;
+        }
     }
 
     private OrderItem(Builder builder) {
