@@ -42,8 +42,7 @@ public class Money {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Money money = (Money) o;
-        boolean test = amount.equals(money.amount);
-        return test;
+        return amount.equals(money.amount);
     }
 
     @Override
