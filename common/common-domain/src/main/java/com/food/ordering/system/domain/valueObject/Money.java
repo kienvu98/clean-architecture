@@ -42,7 +42,7 @@ public class Money {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Money money = (Money) o;
-        return amount.equals(money.amount);
+        return amount.longValue() == money.amount.longValue();
     }
 
     @Override

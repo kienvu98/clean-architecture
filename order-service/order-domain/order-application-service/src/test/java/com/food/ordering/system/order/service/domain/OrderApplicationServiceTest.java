@@ -156,38 +156,38 @@ public class OrderApplicationServiceTest {
         assertNotNull(createOrderRespone.getOrderTrackingId());
     }
 
-//    @Test
-//    public void testCreateOrderWrongtotalPrice() {
-//        OrderDomainException orderDomainException = assertThrows(OrderDomainException.class,
-//                () -> orderApplicationService.createOrder(createOrderCommandWrongPrice));
-//        assertEquals(orderDomainException.getMessage(),
-//                "Total price: 250.000 "
-//                        + "is not equal to order items total: 200.00!");
-//    }
-//
-//    @Test
-//    public void testCreateOrderWrongProductPrice() {
-//        OrderDomainException orderDomainException = assertThrows(OrderDomainException.class,
-//                () -> orderApplicationService.createOrder(createOrderCommandWrongProductPrice));
-//        assertEquals(orderDomainException.getMessage(),
-//                "Order item price: 60.000 " +
-//                        "is not valid for product" + PRODUCT_ID);
-//    }
-//
-//    @Test
-//    public void testCreateOrderWithPassiveRestaurant() {
-//        Restaurant restaurantResponse = Restaurant.builder()
-//                .restaurantId(new RestaurantId(createOrderCommand.getRestauranId()))
-//                .products(List.of(new Product(new ProductId(PRODUCT_ID), "product-1", new Money(new BigDecimal("50.000"))),
-//                        new Product(new ProductId(PRODUCT_ID), "product-2", new Money(new BigDecimal("50.000")))))
-//                .active(true)
-//                .build();
-//
-//        when(restaurantRepository.restaurantInformation(dataMapper.createOrderCommandToRestaurant(createOrderCommand)))
-//                .thenReturn(Optional.of(restaurantResponse));
-//        OrderDomainException orderDomainException = assertThrows(OrderDomainException.class,
-//                () -> orderApplicationService.createOrder(createOrderCommand));
-//        assertEquals(orderDomainException.getMessage(),
-//                "Restaurant with id " + RESTAURANT_ID + "is currently not active!");
-//    }
+    @Test
+    public void testCreateOrderWrongtotalPrice() {
+        OrderDomainException orderDomainException = assertThrows(OrderDomainException.class,
+                () -> orderApplicationService.createOrder(createOrderCommandWrongPrice));
+        assertEquals(orderDomainException.getMessage(),
+                "Total price: 250.000 "
+                        + "is not equal to order items total: 200.00!");
+    }
+
+    @Test
+    public void testCreateOrderWrongProductPrice() {
+        OrderDomainException orderDomainException = assertThrows(OrderDomainException.class,
+                () -> orderApplicationService.createOrder(createOrderCommandWrongProductPrice));
+        assertEquals(orderDomainException.getMessage(),
+                "Order item price: 60.000 " +
+                        "is not valid for product " + PRODUCT_ID);
+    }
+
+    @Test
+    public void testCreateOrderWithPassiveRestaurant() {
+        Restaurant restaurantResponse = Restaurant.builder()
+                .restaurantId(new RestaurantId(createOrderCommand.getRestauranId()))
+                .products(List.of(new Product(new ProductId(PRODUCT_ID), "product-1", new Money(new BigDecimal("50.000"))),
+                        new Product(new ProductId(PRODUCT_ID), "product-2", new Money(new BigDecimal("50.000")))))
+                .active(false)
+                .build();
+
+        when(restaurantRepository.restaurantInformation(dataMapper.createOrderCommandToRestaurant(createOrderCommand)))
+                .thenReturn(Optional.of(restaurantResponse));
+        OrderDomainException orderDomainException = assertThrows(OrderDomainException.class,
+                () -> orderApplicationService.createOrder(createOrderCommand));
+        assertEquals(orderDomainException.getMessage(),
+                "Restaurant with id " + RESTAURANT_ID + " is currently not active!");
+    }
 }

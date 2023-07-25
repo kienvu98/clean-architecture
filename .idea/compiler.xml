@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="common-application" />
         <module name="kafka-model" />
+        <module name="customer-service" />
         <module name="order-application-service" />
         <module name="kafka-consumer" />
         <module name="kafka-producer" />
@@ -27,6 +28,7 @@
       <module name="common" options="-parameters" />
       <module name="common-application" options="-parameters" />
       <module name="common-domain" options="-parameters" />
+      <module name="customer-service" options="-parameters" />
       <module name="food-ordering-system" options="-parameters" />
       <module name="infrastructure" options="-parameters" />
       <module name="kafka" options="-parameters" />
