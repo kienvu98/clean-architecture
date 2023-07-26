@@ -7,10 +7,9 @@
     <modules>
         <module>order-service</module>
         <module>common</module>
-        <module>common/common-domain</module>
         <module>infrastructure</module>
-        <module>common/common-application</module>
         <module>customer-service</module>
+        <module>payment-service</module>
     </modules>
 
     <parent>
@@ -88,6 +87,11 @@
             <dependency>
                 <groupId>com.food.ordering.system</groupId>
                 <artifactId>common-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>payment-domain-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

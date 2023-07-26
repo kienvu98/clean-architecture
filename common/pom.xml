@@ -10,9 +10,10 @@
     </parent>
 
     <artifactId>common</artifactId>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <packaging>pom</packaging>
+    <modules>
+        <module>common-application</module>
+        <module>common-domain</module>
+    </modules>
 
 </project>
