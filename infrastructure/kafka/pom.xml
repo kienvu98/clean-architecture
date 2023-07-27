@@ -21,7 +21,7 @@
     <repositories>
         <repository>
             <id>confluent</id>
-            <url>https://packages.confluent.io.maven</url>
+            <url>https://packages.confluent.io/maven/</url>
         </repository>
     </repositories>
 
@@ -32,11 +32,11 @@
                 <artifactId>spring-kafka</artifactId>
                 <version>${spring-kafka.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/io.confluent/kafka-avro-serializer -->
             <dependency>
-            <groupId>io.confluent</groupId>
-            <artifactId>kafka-avro-serializer</artifactId>
-            <version>${kafka-avro-serializer.version}</version>
-            <exclusions>
+                <groupId>io.confluent</groupId>
+                <artifactId>kafka-avro-serializer</artifactId>
+                <version>7.3.3</version><exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-log4j12</artifactId>
