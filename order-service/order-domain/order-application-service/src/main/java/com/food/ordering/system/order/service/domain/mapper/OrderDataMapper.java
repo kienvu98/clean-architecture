@@ -67,6 +67,6 @@ public class OrderDataMapper {
     }
 
     private StreetAddress orderAdressToStreestAddress(OrderAddress address) {
-        return new StreetAddress(UUID.randomUUID(), address.getStreet(), address.getPostCode(), address.getCity());
+        return new StreetAddress(UUID.randomUUID(), address.getStreet(), address.getPostalCode(), address.getCity());
     }
 }
