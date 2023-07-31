@@ -4,7 +4,9 @@ import com.food.ordering.system.restaurant.service.dataaccess.restaurant.mapper.
 import com.food.ordering.system.restaurant.service.dataaccess.restaurant.respository.OrderApprovalJpaRepository;
 import com.food.ordering.system.restaurant.service.domain.entity.OrderApproval;
 import com.food.ordering.system.restaurant.service.domain.port.output.repository.OrderApprovalRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrdderApprovalRepositoryImpl implements OrderApprovalRepository {
 
     private final RestaurantDataAccessMapper restaurantDataAccessMapper;
