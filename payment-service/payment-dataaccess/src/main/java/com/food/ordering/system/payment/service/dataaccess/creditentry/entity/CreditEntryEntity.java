@@ -21,7 +21,7 @@ public class CreditEntryEntity {
     @Id
     private UUID id;
     private UUID customerId;
-    private BigDecimal totalCreditAmout;
+    private BigDecimal totalCreditAmount;
 
     @Override
     public boolean equals(Object o) {
