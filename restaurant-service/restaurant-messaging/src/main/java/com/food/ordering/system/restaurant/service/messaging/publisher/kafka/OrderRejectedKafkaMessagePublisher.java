@@ -36,7 +36,7 @@ public class OrderRejectedKafkaMessagePublisher implements OrderRejectMessagePub
         try {
             RestaurantApprovalResponseAvroModel restaurantApprovalResponseAvroModel =
                     restaurantMessagingDataMapper.orderRejectEventToRestaurantApprovalResponseAvroModel(domainEvent);
-            kafkaProducer.send(restaurantServiceConfigData.getRestaurantApprovalRequestTopicName(),
+            kafkaProducer.send(restaurantServiceConfigData.getRestaurantApprovalResponseTopicName(),
                     orderId,
                     restaurantApprovalResponseAvroModel,
                     kafkaMessageHelper.getKafkaCallback(restaurantServiceConfigData.getRestaurantApprovalResponseTopicName(),

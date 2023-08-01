@@ -36,7 +36,7 @@ public class OrderApprovedKafkaMessagePublisher implements OrderApprovalMessageP
         try {
             RestaurantApprovalResponseAvroModel restaurantApprovalResponseAvroModel =
                     restaurantMessagingDataMapper.orderApprovedEventToRestaurantApprovalResponseAvroModel(domainEvent);
-            kafkaProducer.send(restaurantServiceConfigData.getRestaurantApprovalRequestTopicName(),
+            kafkaProducer.send(restaurantServiceConfigData.getRestaurantApprovalResponseTopicName(),
                     orderId,
                     restaurantApprovalResponseAvroModel,
                     kafkaMessageHelper.getKafkaCallback(restaurantServiceConfigData.getRestaurantApprovalResponseTopicName(),
