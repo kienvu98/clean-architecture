@@ -39,7 +39,7 @@ public class PaymentFailedKafkaMessagePublisher implements PaymentFailedMessageP
             PaymentResponseAvroModel paymentResponseAvroModel = paymentMessagingDataMapper
                     .paymentFailedEventtoPaymentResponseAvroModel(domainEvent);
 
-            kafkaProducer.send(paymentServiceConfigData.getPaymentRequestTopicName(),
+            kafkaProducer.send(paymentServiceConfigData.getPaymentResponseTopicName(),
                     orderId,
                     paymentResponseAvroModel,
                     kafkaMessageHelper.getKafkaCallback(paymentServiceConfigData.getPaymentResponseTopicName(),

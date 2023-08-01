@@ -40,7 +40,7 @@ public class PaymentCancelledKafkaMessagePublisher implements PaymentCancelledMe
             PaymentResponseAvroModel paymentResponseAvroModel = paymentMessagingDataMapper
                     .paymentCancelledEventtoPaymentResponseAvroModel(domainEvent);
 
-            kafkaProducer.send(paymentServiceConfigData.getPaymentRequestTopicName(),
+            kafkaProducer.send(paymentServiceConfigData.getPaymentResponseTopicName(),
                     orderId,
                     paymentResponseAvroModel,
                     kafkaMessageHelper.getKafkaCallback(paymentServiceConfigData.getPaymentResponseTopicName(),
