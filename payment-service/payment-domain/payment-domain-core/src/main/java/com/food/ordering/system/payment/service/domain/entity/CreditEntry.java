@@ -17,7 +17,7 @@ public class CreditEntry extends BaseEntity<CreditEntyId> {
 
     // tru tien trong khoan tin dung
     public void subtractCreditAmount(Money amount) {
-        totalCreditAmount.sub(amount);
+        totalCreditAmount = totalCreditAmount.sub(amount);
     }
 
     private CreditEntry(Builder builder) {

@@ -30,7 +30,8 @@ public class Money {
     }
 
     public Money sub(Money money) {
-        return new Money(setScale(this.amount.subtract(money.getAmount())));
+        Money result = new Money(setScale(this.amount.subtract(money.getAmount())));
+        return  result;
     }
 
     public Money multiply(int multiplier) {
