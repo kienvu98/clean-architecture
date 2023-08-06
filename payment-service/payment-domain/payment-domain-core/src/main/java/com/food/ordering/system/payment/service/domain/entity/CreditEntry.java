@@ -12,7 +12,7 @@ public class CreditEntry extends BaseEntity<CreditEntyId> {
 
     // them tien trong khoan tin dung
     public void addCreditAmount(Money amount) {
-        totalCreditAmount.add(amount);
+        totalCreditAmount = totalCreditAmount.add(amount);
     }
 
     // tru tien trong khoan tin dung
