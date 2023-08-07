@@ -8,5 +8,5 @@ import java.util.function.BiConsumer;
 
 public interface PaymentRequestMessagePublisher {
 
-    void publish (OrderPaymentOutboxMessage orderPaymentOutboxMessage, BiConsumer<OrderApprovalOutboxMessage, OutboxStatus> outboxCallback);
+    void publish (OrderPaymentOutboxMessage orderPaymentOutboxMessage, BiConsumer<OrderPaymentOutboxMessage, OutboxStatus> outboxCallback);
 }

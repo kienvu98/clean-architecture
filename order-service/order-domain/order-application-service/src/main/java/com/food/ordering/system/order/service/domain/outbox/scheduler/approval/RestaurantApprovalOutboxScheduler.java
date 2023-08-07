@@ -43,12 +43,12 @@ public class RestaurantApprovalOutboxScheduler implements OutboxScheduler {
                     outboxMessages.stream()
                             .map(outboxMessage -> outboxMessage.getId().toString())
                             .collect(Collectors.joining(",")));
-            outboxMessages.forEach(outboxMessage -> restaurantApprovalRequestMessagePublisher.publish(outboxMessage, this::updateoutboxStatus));
+            outboxMessages.forEach(outboxMessage -> restaurantApprovalRequestMessagePublisher.publish(outboxMessage, this::updateOutboxStatus));
             log.info("{} OrderApprovalOutboxMessage sent to message bus!", outboxMessages.size());
         }
     }
 
-    private void updateoutboxStatus(OrderApprovalOutboxMessage orderApprovalOutboxMessage, OutboxStatus outboxStatus) {
+    private void updateOutboxStatus(OrderApprovalOutboxMessage orderApprovalOutboxMessage, OutboxStatus outboxStatus) {
         orderApprovalOutboxMessage.setOutboxStatus(outboxStatus);
         approvalOutboxHelper.save(orderApprovalOutboxMessage);
         log.info("OrderApprovalOutboxMessage is update with outbox status: {}", outboxStatus.name());
