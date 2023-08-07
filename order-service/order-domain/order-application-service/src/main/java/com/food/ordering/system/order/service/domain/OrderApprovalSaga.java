@@ -131,7 +131,6 @@ public class OrderApprovalSaga implements SagaStep<RestaurantApprovalResponse> {
         return orderPaymentOutboxMessage;
     }
 
-
     private OrderCancelledEvent rollbackOrder(RestaurantApprovalResponse restaurantApprovalResponse) {
         log.info("Cancelling order with id: {}", restaurantApprovalResponse.getOrderId());
         Order order = orderSagaHelper.findOrder(restaurantApprovalResponse.getOrderId());
