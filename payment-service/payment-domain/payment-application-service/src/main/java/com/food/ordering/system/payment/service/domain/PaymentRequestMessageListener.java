@@ -18,21 +18,11 @@ public class PaymentRequestMessageListener implements PaymentRequestMessage {
 
     @Override
     public void completePayment(PaymentRequest paymentRequest) {
-        PaymentEvent paymentEvent = paymentRequestHelper.persistPayment(paymentRequest);
-        fireEvent(paymentEvent);
+        paymentRequestHelper.persistPayment(paymentRequest);
     }
 
     @Override
     public void cancelPayment(PaymentRequest paymentRequest) {
-        PaymentEvent paymentEvent = paymentRequestHelper.persistCancelPaymet(paymentRequest);
-        fireEvent(paymentEvent);
-    }
-
-    // ham goi phuong thuc publisher
-    private void fireEvent(PaymentEvent paymentEvent) {
-        log.info("Publishing payment event with payment id: {} and order id: {}",
-                paymentEvent.getPayment().getId(),
-                paymentEvent.getPayment().getOrderId());
-        paymentEvent.fire();
+       paymentRequestHelper.persistCancelPaymet(paymentRequest);
     }
 }

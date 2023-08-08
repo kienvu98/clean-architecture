@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface OrderOutboxRepository {
 
-    OrderOutboxRepository save(OrderOutboxMessage orderOutboxMessage);
+    OrderOutboxMessage save(OrderOutboxMessage orderOutboxMessage);
 
     Optional<List<OrderOutboxMessage>> findByTypeAndOutboxStatus(String type, OutboxStatus outboxStatus);
 
