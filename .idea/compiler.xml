@@ -43,7 +43,7 @@
       <module name="common-domain" options="-parameters" />
       <module name="customer-service" options="-parameters" />
       <module name="food-ordering-system" options="-parameters" />
-      <module name="infrastructure" options="-parameters" />
+      <module name="infrastructure" options="" />
       <module name="kafka" options="" />
       <module name="kafka-config-data" options="-parameters" />
       <module name="kafka-consumer" options="-parameters" />
@@ -56,7 +56,7 @@
       <module name="order-domain" options="" />
       <module name="order-domain-core" options="-parameters" />
       <module name="order-messaging" options="-parameters" />
-      <module name="order-service" options="-parameters" />
+      <module name="order-service" options="" />
       <module name="outbox" options="-parameters" />
       <module name="payment-application-service" options="-parameters" />
       <module name="payment-container" options="-parameters" />
