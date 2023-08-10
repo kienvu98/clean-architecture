@@ -18,21 +18,19 @@ import static com.food.ordering.system.domain.DomainConstants.UTC;
 public class RestaurantDomainServiceImpl implements RestaurantDomainService{
 
     @Override
-    public OrderApprovalEvent valiadateOrder(Restaurant restaurant, List<String> failureMessage,
-                                             DomainEventPublisher<OrderApprovedEvent> orderApprovedEventDomainEventPublisher,
-                                             DomainEventPublisher<OrderRejectEvent> orderRejectEventDomainEventPublisher) {
+    public OrderApprovalEvent valiadateOrder(Restaurant restaurant, List<String> failureMessage) {
         restaurant.validateOrder(failureMessage);
         log.info("Validating order with id: {}", restaurant.getOrderDetail().getId().getValue());
         if (failureMessage.isEmpty()) {
             log.info("Order is approval for order id: {}", restaurant.getOrderDetail().getId().getValue());
             restaurant.constructOrderApproval(OrderApprovalStatus.APPROVED);
             return new OrderApprovedEvent(restaurant.getOrderApproval(), restaurant.getId(), failureMessage,
-                    ZonedDateTime.now(ZoneId.of(UTC)), orderApprovedEventDomainEventPublisher);
+                    ZonedDateTime.now(ZoneId.of(UTC)));
         } else {
             log.info("Order is reject for order id: {}", restaurant.getOrderDetail().getId().getValue());
             restaurant.constructOrderApproval(OrderApprovalStatus.REJECTED);
             return new OrderRejectEvent(restaurant.getOrderApproval(), restaurant.getId(), failureMessage,
-                    ZonedDateTime.now(ZoneId.of(UTC)), orderRejectEventDomainEventPublisher);
+                    ZonedDateTime.now(ZoneId.of(UTC)));
         }
     }
 }

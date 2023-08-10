@@ -10,7 +10,5 @@ import java.util.List;
 
 public interface RestaurantDomainService {
 
-    OrderApprovalEvent valiadateOrder(Restaurant restaurant, List<String> failureMessage,
-                                      DomainEventPublisher<OrderApprovedEvent> orderApprovedEventDomainEventPublisher,
-                                      DomainEventPublisher<OrderRejectEvent> orderRejectEventDomainEventPublisher);
+    OrderApprovalEvent valiadateOrder(Restaurant restaurant, List<String> failureMessage);
 }

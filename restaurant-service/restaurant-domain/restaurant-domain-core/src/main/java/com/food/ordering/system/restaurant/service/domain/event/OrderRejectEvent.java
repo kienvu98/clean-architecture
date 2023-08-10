@@ -9,16 +9,8 @@ import java.util.List;
 
 public class OrderRejectEvent extends OrderApprovalEvent{
 
-    private final DomainEventPublisher<OrderRejectEvent> orderRejectEventDomainEventPublisher;
-
-    public OrderRejectEvent(OrderApproval orderApproval, RestaurantId restaurantId, List<String> failureMessage, ZonedDateTime createdAt,
-                            DomainEventPublisher<OrderRejectEvent> orderRejectEventDomainEventPublisher) {
+    public OrderRejectEvent(OrderApproval orderApproval, RestaurantId restaurantId, List<String> failureMessage, ZonedDateTime createdAt) {
         super(orderApproval, restaurantId, failureMessage, createdAt);
-        this.orderRejectEventDomainEventPublisher = orderRejectEventDomainEventPublisher;
     }
 
-    @Override
-    public void fire() {
-        orderRejectEventDomainEventPublisher.publisher(this);
-    }
 }
