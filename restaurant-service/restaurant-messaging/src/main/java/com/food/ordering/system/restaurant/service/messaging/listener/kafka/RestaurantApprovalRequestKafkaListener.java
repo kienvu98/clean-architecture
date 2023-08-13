@@ -3,14 +3,19 @@ package com.food.ordering.system.restaurant.service.messaging.listener.kafka;
 import com.food.ordering.system.kafka.consumer.KafkaConsumer;
 import com.food.ordering.system.kafka.order.avro.model.RestaurantApprovalRequestAvroModel;
 import com.food.ordering.system.restaurant.service.domain.RestaurantApprovalRequestMessageListenerImpl;
+import com.food.ordering.system.restaurant.service.domain.exception.RestaurantDomainException;
+import com.food.ordering.system.restaurant.service.domain.exception.RestaurantNotFoundException;
 import com.food.ordering.system.restaurant.service.messaging.mapper.RestaurantMessagingDataMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.postgresql.util.PSQLState;
+import org.springframework.dao.DataAccessException;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Slf4j
@@ -40,9 +45,24 @@ public class RestaurantApprovalRequestKafkaListener implements KafkaConsumer<Res
                 partitions.toString(),
                 offsets.toString());
         message.forEach(restaurantApprovalRequestAvroModel -> {
-            log.info("Processing order approval for order id: {}", restaurantApprovalRequestAvroModel.getOrderId());
-            restaurantApprovalRequestMessageListener.approvedOrder(restaurantMessagingDataMapper
-                    .restaurantApprovalRequestModelToRestaurantApproval(restaurantApprovalRequestAvroModel));
+            try {
+                log.info("Processing order approval for order id: {}", restaurantApprovalRequestAvroModel.getOrderId());
+                restaurantApprovalRequestMessageListener.approvedOrder(restaurantMessagingDataMapper
+                        .restaurantApprovalRequestModelToRestaurantApproval(restaurantApprovalRequestAvroModel));
+            } catch (DataAccessException e) {
+                SQLException sqlException = (SQLException) e.getRootCause();
+                if (sqlException != null && sqlException.getSQLState() != null &&
+                        PSQLState.UNIQUE_VIOLATION.getState().equals(sqlException.getSQLState())) {
+                    log.error("Caught unique constraint excepption with sql state: {} in RestaurantApprovalRequestKafkaListenre for order id: {}",
+                            sqlException.getSQLState(), restaurantApprovalRequestAvroModel.getOrderId());
+                } else {
+                    throw new RestaurantDomainException("Throwing DataAccessException in RestaurantApprovalRequestKafkaListenre" + e.getMessage());
+                }
+            } catch (RestaurantNotFoundException e) {
+                log.error("No restaurant found for restaurant id: {}, and order id : {}",
+                        restaurantApprovalRequestAvroModel.getRestaurantId(),
+                        restaurantApprovalRequestAvroModel.getOrderId());
+            }
         });
     }
 }
