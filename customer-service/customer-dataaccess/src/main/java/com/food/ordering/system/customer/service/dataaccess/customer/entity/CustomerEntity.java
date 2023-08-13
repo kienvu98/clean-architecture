@@ -1,8 +1,8 @@
-package com.food.ordering.system.order.service.dataccess.customer.entity;
+package com.food.ordering.system.customer.service.dataaccess.customer.entity;
 
 import lombok.*;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.UUID;
@@ -13,12 +13,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "customers")
-@Entity
+@EntityScan
 public class CustomerEntity {
 
     @Id
     private UUID id;
-    private String username;
+    private String userName;
     private String firstName;
     private String lastName;
 }

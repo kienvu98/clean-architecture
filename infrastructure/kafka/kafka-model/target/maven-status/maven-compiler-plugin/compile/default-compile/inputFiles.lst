@@ -4,6 +4,7 @@ F:\clean-architecture\infrastructure\kafka\kafka-model\src\main\java\com\food\or
 F:\clean-architecture\infrastructure\kafka\kafka-model\src\main\java\com\food\ordering\system\kafka\order\avro\model\PaymentStatus.java
 F:\clean-architecture\infrastructure\kafka\kafka-model\src\main\java\com\food\ordering\system\kafka\order\avro\model\PaymentOrderStatus.java
 F:\clean-architecture\infrastructure\kafka\kafka-model\src\main\java\com\food\ordering\system\kafka\order\avro\model\Product.java
+F:\clean-architecture\infrastructure\kafka\kafka-model\src\main\java\com\food\ordering\system\kafka\order\avro\model\CustomerAvroModel.java
 F:\clean-architecture\infrastructure\kafka\kafka-model\src\main\java\com\food\ordering\system\kafka\order\avro\model\PaymentRequestAvroModel.java
 F:\clean-architecture\infrastructure\kafka\kafka-model\src\main\java\com\food\ordering\system\kafka\order\avro\model\RestaurantApprovalRequestAvroModel.java
 F:\clean-architecture\infrastructure\kafka\kafka-model\src\main\java\com\food\ordering\system\kafka\order\avro\model\OrderApprovalStatus.java
